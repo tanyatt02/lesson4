@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tranlate service</title>
+</head>
+
+<body>
+
+    <form method="POST" action="/news">
+        <label>
+            Source
+            <select autofocus='true' name='source' id='source'>
+                <option>RBC</option>
+                <option>RBC quote</option>
+                <option>meduza</option>
+            </select>
+        </label><br>
+        <label>
+            Number of news (max 10)
+            <input id='count' type="number" name="count" min='1' max='10' value='1' />
+        </label><br>
+
+        <button type="submit">Получить новости</button>
+    </form>
+    <ul>
+        {{#each news}}
+            <li>{{ this }}</li>
+        {{/each}}
+    </ul>
+    <script>
+        //разбираем куки
+        let s = document.cookie;
+        let count = parseInt(s.slice(s.indexOf('count') + 6), 10);
+        if (count >= 1 && count <= 10) {
+            document.getElementById('count').value = count
+        } else {
+            document.getElementById('count').value = 1
+        }
+        if (s.indexOf('meduza') > -1) document.getElementById('source').options[2].selected = true;
+        if (s.indexOf('RBC%20quote') > -1) document.getElementById('source').options[1].selected = true;
+
+    </script>
+    <br><br><br>
+    {{ context }}
+
+
+
+
+</body>
+
+</html>
